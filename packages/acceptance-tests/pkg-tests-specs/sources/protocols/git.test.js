@@ -147,5 +147,31 @@ describe(`Protocols`, () => {
       ),
       45000,
     );
+
+    test(
+      `it should support installing specific workspaces from npm repositories`,
+      makeTemporaryEnv(
+        {
+          dependencies: {
+            [`pkg-a`]: startPackageServer().then(url => `${url}/repositories/npm-workspaces.git#workspace=pkg-a`),
+            [`pkg-b`]: startPackageServer().then(url => `${url}/repositories/npm-workspaces.git#workspace=pkg-b`),
+          },
+        },
+        async ({path, run, source}) => {
+          await run(`install`);
+
+          await expect(source(`require('pkg-a/package.json')`)).resolves.toMatchObject({
+            name: `pkg-a`,
+            version: `1.0.0`,
+          });
+
+          await expect(source(`require('pkg-b/package.json')`)).resolves.toMatchObject({
+            name: `pkg-b`,
+            version: `1.0.0`,
+          });
+        },
+      ),
+      45000,
+    );
   });
 });

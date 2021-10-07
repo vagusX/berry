@@ -25,6 +25,7 @@ Yarn now accepts sponsorships! Please give a look at our [OpenCollective](https:
 
 - `hardlinks-global` node modules mode is automatically downgraded to `hardlinks-local` when global cache and install folder are on a different devices and the install continues normally. Warning is produced to the user with mitigation steps provided in documentation.
 - The nm linker maximizes chances to end-up with only one top-level node_modules in the case of using workspaces
+- Yarn can now install workspaces from remote git repositories that use npm if npm@>=7.x is installed on the system.
 
 ## 3.0.2
 
