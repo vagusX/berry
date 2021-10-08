@@ -210,6 +210,10 @@ jobs:
     - name: '[Debug] npm version'
       run: npm --version
 
+    - name: '[Debug] npm version (bash)'
+      run: npm --version
+      shell: bash
+
     - uses: actions/download-artifact@v2
       with:
         name: yarn-artifacts
