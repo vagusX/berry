@@ -206,7 +206,6 @@ jobs:
     - name: 'Upgrade npm to latest'
       run: |
         npm install -g npm
-      shell: bash
 
     - uses: actions/download-artifact@v2
       with:
