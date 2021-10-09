@@ -2,6 +2,7 @@ import {CwdFS, Filename, NativePath, PortablePath, ZipOpenFS} from '@yarnpkg/fsl
 import {xfs, npath, ppath, toFilename}                        from '@yarnpkg/fslib';
 import {getLibzipPromise}                                     from '@yarnpkg/libzip';
 import {execute}                                              from '@yarnpkg/shell';
+import {spawnSync}                                            from 'child_process';
 import capitalize                                             from 'lodash/capitalize';
 import pLimit                                                 from 'p-limit';
 import {PassThrough, Readable, Writable}                      from 'stream';
@@ -260,6 +261,9 @@ export async function prepareExternalProject(cwd: PortablePath, outputPath: Port
               const versionPromise = miscUtils.bufferStream(versionStream);
 
               versionStream.pipe(stdout, {end: false});
+
+              const npmVersionFromScriptUtils = spawnSync(`npm`, [`--version`], {stdio: `pipe`, encoding: `utf8`});
+              console.log({npmVersionFromScriptUtils, PATH: env.PATH});
 
               const version = await execUtils.pipevp(`npm`, [`--version`], {cwd, env, stdin, stdout: versionStream, stderr, end: execUtils.EndStrategy.Never});
               versionStream.end();

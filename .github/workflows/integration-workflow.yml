@@ -187,9 +187,9 @@ jobs:
         - 14
         - 16
         platform:
-        - ubuntu-latest
+        # - ubuntu-latest
         - windows-latest
-        - macos-latest
+        # - macos-latest
 
     name: '${{matrix.platform}} w/ Node.js ${{matrix.node}}.x'
     runs-on: ${{matrix.platform}}
