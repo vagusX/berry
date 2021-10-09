@@ -214,6 +214,10 @@ jobs:
       run: npm --version
       shell: bash
 
+    - name: '[Debug] npm path'
+      run: where npm
+      if: ${{ matrix.platform == 'windows-latest' }}
+
     - uses: actions/download-artifact@v2
       with:
         name: yarn-artifacts
@@ -221,7 +225,7 @@ jobs:
 
     - name: 'Run the integration tests'
       run: |
-        node ./scripts/run-yarn.js test:integration --runInBand
+        node ./scripts/run-yarn.js test:integration --runInBand git.test.js
       shell: bash
 
     - name: 'Run the unit tests'

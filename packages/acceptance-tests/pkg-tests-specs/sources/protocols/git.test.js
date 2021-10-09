@@ -3,6 +3,7 @@ const {
   tests: {startPackageServer},
 } = require(`pkg-tests-core`);
 const {parseSyml} = require(`@yarnpkg/parsers`);
+const {spawnSync} = require(`child_process`);
 
 const TESTED_URLS = {
   // We've picked util-deprecate because it doesn't have any dependency, and
@@ -148,7 +149,7 @@ describe(`Protocols`, () => {
       45000,
     );
 
-    test(
+    test.only(
       `it should support installing specific workspaces from npm repositories`,
       makeTemporaryEnv(
         {
@@ -158,6 +159,11 @@ describe(`Protocols`, () => {
           },
         },
         async ({path, run, source}) => {
+          const npmVersion = spawnSync(`npm`, [`--version`], {stdio: `pipe`, encoding: `utf8`});
+          const npmPath = spawnSync(`where`, [`npm`], {stdio: `pipe`, encoding: `utf8`});
+
+          console.log({npmVersion, npmPath, PATH: process.env.PATH});
+
           await run(`install`);
 
           await expect(source(`require('pkg-a/package.json')`)).resolves.toMatchObject({
